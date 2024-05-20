@@ -6,7 +6,6 @@ import glob
 def camera_calibration(images, board_w, board_h, board_size):
     # 设置迭代终止条件
     criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
-    criteria_stereo = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 100, 1e-5)
 
     # 获取棋盘格角点的世界坐标
     objp = np.zeros((board_w * board_h, 3), np.float32)

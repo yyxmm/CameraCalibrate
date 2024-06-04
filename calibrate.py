@@ -42,6 +42,15 @@ def camera_calibration(images, board_w, board_h, board_size):
 
     # 标定
     ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(obj_points, img_points, gray.shape[::-1], None, None)
+    # 计算重投影误差
+    mean_error = 0
+    for i in range(len(obj_points)):
+        img_points2, _ = cv2.projectPoints(obj_points[i], rvecs[i], tvecs[i], mtx, dist)
+        error = cv2.norm(img_points[i], img_points2, cv2.NORM_L2) / len(img_points2)
+        print(f"image {i} error: {error}")
+        mean_error += error
+    print("total error: ", mean_error / len(obj_points))
+    #
     return ret, mtx, dist, rvecs, tvecs
 
 
@@ -73,7 +82,7 @@ if __name__ == "__main__":
     # 棋盘格尺寸，单位mm
     board_size = 25.0
     
-    ret, mtx, dist, rvecs, tvecs = camera_calibration(glob.glob("calibration_images/*.jpg"), board_w, board_h, board_size)
+    ret, mtx, dist, rvecs, tvecs = camera_calibration(glob.glob("images/*.jpg"), board_w, board_h, board_size)
     fx = mtx[0, 0]
     fy = mtx[1, 1]
     

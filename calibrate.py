@@ -74,6 +74,8 @@ if __name__ == "__main__":
     board_size = 25.0
     
     ret, mtx, dist, rvecs, tvecs = camera_calibration(glob.glob("calibration_images/*.jpg"), board_w, board_h, board_size)
+    fx = mtx[0, 0]
+    fy = mtx[1, 1]
     
     # Example usage
     image_point = (100, 200)
